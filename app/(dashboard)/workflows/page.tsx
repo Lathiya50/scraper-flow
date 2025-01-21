@@ -3,7 +3,8 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AlertCircle, InboxIcon } from "lucide-react";
 import React, { Suspense } from "react";
-import CreateWorkflowDialog from "./_components/CreateWorkFlowDialog";
+import CreateWorkflowDialog from "./_components/CreateWorkflowDialog";
+import WorkflowCard from "./_components/WorkflowCard";
 
 function WorkFlowsPage() {
   return (
@@ -64,4 +65,11 @@ async function UserWorkflows() {
       </div>
     );
   }
+  return (
+    <div className="grid grid-cols-1 gap-4">
+      {workflows?.map((workflow) => (
+        <WorkflowCard key={workflow.id} workflow={workflow} />
+      ))}
+    </div>
+  );
 }

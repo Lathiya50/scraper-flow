@@ -17,6 +17,7 @@ import { GetCreditUsageInPeriod } from "@/actions/analytics/getCreditUsageInPeri
 import CreditUsageChat from "./_components/CreditUsageChat";
 import { GetUserPurchaseHistory } from "@/actions/billing/getUserPurchaseHistory";
 import InvoiceBtn from "./_components/InvoiceBtn";
+import { formatDate, formatAmount } from "@/lib/format";
 
 function BillingPage() {
   return (
@@ -74,7 +75,7 @@ async function CreditUsageCard() {
   return (
     <CreditUsageChat
       data={data}
-      title="Credits consumed"
+      title="Credits Consumed"
       description="Daily credit consumed in the current month"
     />
   );
@@ -109,7 +110,7 @@ async function TransationHistoryCard() {
               </div>
               <div className="text-right">
                 <p className="text-medium">
-                  {formtAmount(purchase.amount, purchase.currency)}
+                  {formatAmount(purchase.amount, purchase.currency)}
                 </p>
                 <InvoiceBtn id={purchase.id} />
               </div>
@@ -119,21 +120,4 @@ async function TransationHistoryCard() {
       </CardHeader>
     </Card>
   );
-}
-
-export function formtAmount(amount: number, currency: string) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency,
-  }).format(amount / 100);
-}
-
-export function formatDate(date: Date) {
-  const formatter = new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-  const formatted = formatter.format(date);
-  return formatted;
 }

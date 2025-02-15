@@ -136,7 +136,7 @@ function ExecutionViewer({ initialData }: Props) {
           />
           <ExecutionLabel
             icon={CoinsIcon}
-            label="Credits consumed"
+            label="Credits Consumed"
             value={<ReactCountUpWrapper value={creditConsumed} />}
           />
         </div>

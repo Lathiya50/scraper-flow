@@ -4,13 +4,17 @@ import React, { useCallback } from "react";
 import StringParam from "./param/StringParam";
 import { useReactFlow } from "@xyflow/react";
 import { AppNode } from "@/types/appNode";
+import BrowserInstanceParam from "./param/BrowserInstanceParam";
+import SelectParam from "./param/SelectParam";
+import CredentialsParam from "./param/CredentialsParam";
 
 interface Props {
   param: TaskParam;
   nodeId: string;
+  disabled: boolean;
 }
 
-function NodeParamField({ param, nodeId }: Props) {
+function NodeParamField({ param, nodeId, disabled }: Props) {
   const { updateNodeData, getNode } = useReactFlow();
   const node = getNode(nodeId) as AppNode;
   const value = node?.data?.inputs?.[param.name];
@@ -34,8 +38,37 @@ function NodeParamField({ param, nodeId }: Props) {
           param={param}
           value={value}
           updateNodeParamValue={updateNodeParamValue}
+          disabled={disabled}
         />
       );
+    case TaskParamType.BROWSER_INSTANCE:
+      return (
+        <BrowserInstanceParam
+          param={param}
+          value={""}
+          updateNodeParamValue={updateNodeParamValue}
+        />
+      );
+
+    case TaskParamType.SELECT:
+      return (
+        <SelectParam
+          param={param}
+          value={value}
+          updateNodeParamValue={updateNodeParamValue}
+          disabled={disabled}
+        />
+      );
+    case TaskParamType.CREDENTIAL:
+      return (
+        <CredentialsParam
+          param={param}
+          value={value}
+          updateNodeParamValue={updateNodeParamValue}
+          disabled={disabled}
+        />
+      );
+
     default:
       return (
         <div className="w-full">

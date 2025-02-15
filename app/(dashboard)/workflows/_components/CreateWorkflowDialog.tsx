@@ -45,13 +45,15 @@ function CreateWorkflowDialog(props: CreateWorkflowDialogProps) {
     },
     onError: () => {
       toast.error("Failed to create workflow", {
-        id: "create-workflow-error",
+        id: "create-workflow-success",
       });
     },
   });
   const onSubmit = useCallback(
     (values: createWorkflowSchemaType) => {
-      toast.loading("Creating workflow...");
+      toast.loading("Creating workflow...", {
+        id: "create-workflow-success",
+      });
       mutate(values);
     },
     [mutate]

@@ -8,6 +8,8 @@ interface TooltipWrapperProps {
   side?: "top" | "bottom" | "left" | "right";
 }
 function TooltipWrapper(props: TooltipWrapperProps) {
+  if (!props.content) return props.children;
+
   return (
     <TooltipProvider delayDuration={0}>
       <Tooltip>

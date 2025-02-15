@@ -39,3 +39,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 <!--npx prisma migrate dev  -->
 <!-- npx prisma studio -->
+
+<!--1-02-2024 5.08.26 -->

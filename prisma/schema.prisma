@@ -11,14 +11,100 @@ datasource db {
 }
 
 model Workflow {
-  id          String   @id @default(cuid())
-  userId      String
-  name        String
-  description String?
-  definition  String
-  status      String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String  @id @default(cuid())
+  userId        String
+  name          String
+  description   String?
+  definition    String
+  executionPlan String?
+  creditsCost   Int     @default(0)
+  status        String // DRAFT | PUBLISHED
+
+  cron String?
+
+  lastRunAt     DateTime?
+  lastRunId     String?
+  lastRunStatus String?
+  nextRunAt     DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  executionLogs WorkflowExecution[]
 
   @@unique([name, userId])
+}
+
+model WorkflowExecution {
+  id          String    @id @default(cuid())
+  workflowId  String
+  userId      String
+  trigger     String
+  status      String
+  createdAt   DateTime  @default(now())
+  startedAt   DateTime?
+  completedAt DateTime?
+  definition  String    @default("{}")
+
+  creditsConsumed Int @default(0)
+
+  phases ExecutionPhase[]
+
+  workflow Workflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+}
+
+model ExecutionPhase {
+  id          String    @id @default(cuid())
+  userId      String
+  status      String
+  number      Int
+  node        String
+  name        String
+  startedAt   DateTime?
+  completedAt DateTime?
+  inputs      String?
+  outputs     String?
+
+  creditsConsumed     Int?
+  execution           WorkflowExecution? @relation(fields: [workflowExecutionId], references: [id], onDelete: Cascade)
+  workflowExecutionId String
+  logs                ExecutionLog[]
+}
+
+model ExecutionLog {
+  id               String         @id @default(cuid())
+  logLevel         String
+  message          String
+  timestamp        DateTime       @default(now())
+  executionPhaseId String
+  executionPhase   ExecutionPhase @relation(fields: [executionPhaseId], references: [id], onDelete: Cascade)
+}
+
+model UserBalance {
+  userId  String @id
+  credits Int    @default(0)
+}
+
+model Credential {
+  id     String @id @default(cuid())
+  userId String
+  name   String
+  value  String
+
+  description String?
+  // type        String
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, name])
+}
+
+model UserPurchase {
+  id          String   @id @default(cuid())
+  userId      String
+  stripeId    String
+  description String
+  amount      Int
+  currency    String
+  date        DateTime @default(now())
 }

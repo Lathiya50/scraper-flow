@@ -7,18 +7,31 @@ export async function SetupUser() {
   if (!userId) {
     throw new Error("User not found");
   }
-  const balance = await prisma.userBalance.findUnique({
+  // const balance = await prisma.userBalance.findUnique({
+  //   where: {
+  //     userId,
+  //   },
+  // });
+  // if (!balance) {
+  //   await prisma.userBalance.create({
+  //     data: {
+  //       userId,
+  //       credits: 100,
+  //     },
+  //   });
+  // }
+
+  // Use upsert instead of separate find and create
+  await prisma.userBalance.upsert({
     where: {
       userId,
     },
+    create: {
+      userId,
+      credits: 100,
+    },
+    update: {}, // If record exists, don't update anything
   });
-  if (!balance) {
-    await prisma.userBalance.create({
-      data: {
-        userId,
-        credits: 100,
-      },
-    });
-  }
+
   redirect("/");
 }

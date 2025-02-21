@@ -14,8 +14,7 @@ export async function POST(req: Request, res: Response) {
     if (!process.env.STRIPE_WEBHOOK_SECRET) {
       return new NextResponse("Webhook secret not configured", { status: 500 });
     }
-    console.log("@body...", body.length);
-    console.log("@signature...", signature.length);
+
     const event = stripe.webhooks.constructEvent(
       body,
       signature,

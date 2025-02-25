@@ -1,8 +1,9 @@
-import { waitFor } from "@/lib/helper/waitFor";
 import puppeteer, { type Browser } from "puppeteer";
-import puppeteerCore, { type Browser as BrowserCore } from "puppeteer-core";
+import { type Browser as BrowserCore } from "puppeteer-core";
+const puppeteerCore = require("puppeteer-core");
+// const chromium = require("@sparticuz/chromium-min");
 import chromium from "@sparticuz/chromium-min";
-import { Environment, ExecutionEnvironment } from "@/types/executor";
+import { ExecutionEnvironment } from "@/types/executor";
 import { LaunchBrowserTask } from "../task/LaunchBrowser";
 
 export async function LaunchBrowserExecutor(
@@ -11,22 +12,33 @@ export async function LaunchBrowserExecutor(
   try {
     const websiteUrl = environment.getInput("Website Url");
     let browser: Browser | BrowserCore;
+    console.log(
+      "@process..........",
+      process.env.NODE_ENV,
+      process.env.VERCEL_ENV
+    );
     if (
       process.env.NODE_ENV === "production" ||
       process.env.VERCEL_ENV === "production"
     ) {
-      // const executablePath = await chromium.executablePath(
-      //   "https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.3-pack.tar"
-      // );
+      console.log("Launching in production mode...");
+      // Updated production configuration
+      const executionPath =
+        "https://github.com/Sparticuz/chromium/releases/download/v123.0.1/chromium-v123.0.1-pack.tar";
+
+      // "https://github.com/Sparticuz/chromium/releases/download/v119.0.2/chromium-v119.0.2-pack.tar"
+      // "/opt/nodejs/node_modules/@sparticuz/chromium/bin"
+
       browser = await puppeteerCore.launch({
-        executablePath: await chromium.executablePath(
-          "https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.3-pack.tar"
-        ),
+        executablePath: await chromium.executablePath(executionPath),
         args: chromium.args,
-        headless: chromium.headless,
         defaultViewport: chromium.defaultViewport,
+        headless: chromium.headless,
+        // @ts-ignore
+        ignoreHTTPSErrors: true,
       });
     } else {
+      console.log("Launching in development mode...");
       const localExecutablePath =
         "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
       browser = await puppeteer.launch({
@@ -45,8 +57,9 @@ export async function LaunchBrowserExecutor(
     environment.log.info(`Opened the website successfully. URL:${websiteUrl}`);
 
     return true;
-  } catch (e) {
-    console.log("error while puppeteer.", e);
+  } catch (e: any) {
+    environment.log.error(`Failed to launch browser: ${e.message}`);
+    console.error("Error while launching puppeteer:", e);
     return false;
   }
 }

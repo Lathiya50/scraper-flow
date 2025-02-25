@@ -16,7 +16,7 @@
   "dependencies": {
     "@clerk/nextjs": "^6.9.9",
     "@hookform/resolvers": "^3.10.0",
-    "@prisma/client": "^6.2.1",
+    "@prisma/client": "^5.10.2",
     "@radix-ui/react-accordion": "^1.2.2",
     "@radix-ui/react-alert-dialog": "^1.1.4",
     "@radix-ui/react-aspect-ratio": "^1.1.1",
@@ -44,7 +44,7 @@
     "@radix-ui/react-toggle": "^1.1.1",
     "@radix-ui/react-toggle-group": "^1.1.1",
     "@radix-ui/react-tooltip": "^1.1.6",
-    "@sparticuz/chromium-min": "^131.0.1",
+    "@sparticuz/chromium-min": "^123.0.1",
     "@tanstack/react-query": "^5.63.0",
     "@xyflow/react": "^12.3.6",
     "cheerio": "^1.0.0-rc.12",
@@ -58,7 +58,7 @@
     "embla-carousel-react": "^8.5.2",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.469.0",
-    "next": "^14.2.23",
+    "next": "^14.1.0",
     "next-themes": "^0.4.4",
     "nextjs-toploader": "^3.7.15",
     "openai": "^4.83.0",
@@ -83,13 +83,13 @@
     "@types/puppeteer": "^5.4.7",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "cross-env": "^7.0.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "postcss": "^8",
-    "prisma": "^6.2.1",
+    "prisma": "^5.10.2",
     "puppeteer": "^23.6.0",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5",
-    "cross-env": "^7.0.3"
+    "typescript": "^5"
   }
 }

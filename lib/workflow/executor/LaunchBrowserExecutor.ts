@@ -31,7 +31,14 @@ export async function LaunchBrowserExecutor(
 
       browser = await puppeteerCore.launch({
         executablePath: await chromium.executablePath(executionPath),
-        args: chromium.args,
+        args: [
+          ...chromium.args,
+          "--no-sandbox",
+          "--disable-setuid-sandbox",
+          "--disable-dev-shm-usage",
+          "--hide-scrollbars",
+          "--disable-web-security",
+        ],
         defaultViewport: chromium.defaultViewport,
         headless: chromium.headless,
         // @ts-ignore
